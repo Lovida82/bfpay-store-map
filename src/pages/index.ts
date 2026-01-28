@@ -1,0 +1,8 @@
+export { HomePage } from './HomePage';
+export { RegisterPage } from './RegisterPage';
+export { StoreDetailPage } from './StoreDetailPage';
+export { SearchPage } from './SearchPage';
+export { LoginPage } from './LoginPage';
+export { SignupPage } from './SignupPage';
+export { MyPage } from './MyPage';
+export { NotFoundPage } from './NotFoundPage';

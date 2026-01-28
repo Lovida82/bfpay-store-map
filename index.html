@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="비플페이 제로페이 검증 가맹점 지도 서비스" />
+    <title>비플페이 검증 가맹점 지도</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    />
+    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=d8b2561c0fd80641899c55be63e3a9b9&libraries=services,clusterer&autoload=false"></script>
+    <script>
+      window.addEventListener('load', function() {
+        console.log('=== Kakao Map Debug ===');
+        console.log('window.kakao:', typeof window.kakao);
+        if (window.kakao) {
+          console.log('window.kakao.maps:', typeof window.kakao.maps);
+        } else {
+          console.log('Kakao SDK not loaded!');
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
