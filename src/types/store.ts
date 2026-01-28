@@ -28,25 +28,11 @@ export interface Store {
 
 export type StoreCategory =
   | '음식점'
-  | '카페'
-  | '편의점'
-  | '마트'
-  | '약국'
-  | '미용실'
-  | '병원'
-  | '주유소'
-  | '기타';
+  | '카페';
 
 export const STORE_CATEGORIES: StoreCategory[] = [
   '음식점',
   '카페',
-  '편의점',
-  '마트',
-  '약국',
-  '미용실',
-  '병원',
-  '주유소',
-  '기타',
 ];
 
 export type StoreStatus = 'pending' | 'verified' | 'rejected' | 'closed';

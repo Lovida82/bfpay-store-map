@@ -19,11 +19,4 @@ export const MARKER_IMAGES = {
 export const CATEGORY_ICONS: Record<string, string> = {
   음식점: '🍽️',
   카페: '☕',
-  편의점: '🏪',
-  마트: '🛒',
-  약국: '💊',
-  미용실: '✂️',
-  병원: '🏥',
-  주유소: '⛽',
-  기타: '📍',
 };
