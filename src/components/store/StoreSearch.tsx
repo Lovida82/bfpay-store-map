@@ -3,15 +3,20 @@ import { useStoreStore } from '@/stores';
 import { Input } from '@/components/common';
 import { debounce } from '@/utils/helpers';
 
-export function StoreSearch() {
+interface StoreSearchProps {
+  onSearchChange?: () => void;
+}
+
+export function StoreSearch({ onSearchChange }: StoreSearchProps) {
   const { searchQuery, setSearchQuery } = useStoreStore();
   const [inputValue, setInputValue] = useState(searchQuery);
 
   const debouncedSetSearchQuery = useCallback(
     debounce((value: string) => {
       setSearchQuery(value);
+      onSearchChange?.();
     }, 300),
-    [setSearchQuery]
+    [setSearchQuery, onSearchChange]
   );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

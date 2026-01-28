@@ -35,6 +35,11 @@ export function HomePage() {
     setFilterByBounds(true);
   }, []);
 
+  // 검색어 변경 시 지도 범위 필터 해제
+  const handleSearchChange = useCallback(() => {
+    setFilterByBounds(false);
+  }, []);
+
   // 초기 로드시 현재 위치로 이동
   useEffect(() => {
     if (navigator.geolocation) {
@@ -108,7 +113,7 @@ export function HomePage() {
         <div className="p-4 border-b">
           <h2 className="text-lg font-bold text-gray-900 mb-4">가맹점 목록</h2>
           <div className="space-y-3">
-            <StoreSearch />
+            <StoreSearch onSearchChange={handleSearchChange} />
             <StoreFilter />
           </div>
         </div>
@@ -254,7 +259,7 @@ export function HomePage() {
         {isBottomSheetOpen && (
           <div className="flex flex-col h-[calc(70vh-60px)] overflow-hidden">
             <div className="px-4 py-3 border-b border-gray-100">
-              <StoreSearch />
+              <StoreSearch onSearchChange={handleSearchChange} />
               <div className="mt-2">
                 <StoreFilter />
               </div>
