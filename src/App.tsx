@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { Layout } from './components/layout/Layout';
+import { LandingPage } from './pages/LandingPage';
 import { HomePage } from './pages/HomePage';
 import { RegisterPage } from './pages/RegisterPage';
 import { StoreDetailPage } from './pages/StoreDetailPage';
@@ -14,7 +15,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<HomePage />} />
+        <Route index element={<LandingPage />} />
+        <Route path="map" element={<HomePage />} />
         <Route path="search" element={<SearchPage />} />
         <Route path="store/:id" element={<StoreDetailPage />} />
         <Route path="login" element={<LoginPage />} />
