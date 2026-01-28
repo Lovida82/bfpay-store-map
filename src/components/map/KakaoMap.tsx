@@ -1,4 +1,5 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { loadKakaoMapScript, createMap, createMarker } from '@/services/kakaoMap';
 import { useMapStore, useStoreStore } from '@/stores';
 import { getTrustLevel, TRUST_LEVEL_COLORS } from '@/types/map';
@@ -9,7 +10,15 @@ interface KakaoMapProps {
   onMapClick?: () => void;
 }
 
+// 전역 함수로 상세페이지 이동 (InfoWindow 클릭용)
+declare global {
+  interface Window {
+    navigateToStore?: (storeId: string) => void;
+  }
+}
+
 export function KakaoMap({ onMarkerClick, onMapClick }: KakaoMapProps) {
+  const navigate = useNavigate();
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<any>(null);
   const markersRef = useRef<Map<string, any>>(new Map());
@@ -20,6 +29,16 @@ export function KakaoMap({ onMarkerClick, onMapClick }: KakaoMapProps) {
 
   const { center, level, setLevel, setBounds, selectedStoreId } = useMapStore();
   const { filteredStores } = useStoreStore();
+
+  // 전역 네비게이션 함수 등록
+  useEffect(() => {
+    window.navigateToStore = (storeId: string) => {
+      navigate(`/store/${storeId}`);
+    };
+    return () => {
+      delete window.navigateToStore;
+    };
+  }, [navigate]);
 
   useEffect(() => {
     let mounted = true;
@@ -151,8 +170,13 @@ export function KakaoMap({ onMarkerClick, onMapClick }: KakaoMapProps) {
         }
 
         const infoContent = `
-          <div style="padding: 12px; min-width: 180px; font-family: sans-serif;">
-            <div style="font-weight: bold; font-size: 14px; margin-bottom: 6px;">${store.name}</div>
+          <div
+            onclick="window.navigateToStore('${store.id}')"
+            style="padding: 12px; min-width: 200px; font-family: sans-serif; cursor: pointer; transition: background 0.2s;"
+            onmouseover="this.style.background='#f8fafc'"
+            onmouseout="this.style.background='white'"
+          >
+            <div style="font-weight: bold; font-size: 14px; margin-bottom: 6px; color: #1e40af;">${store.name}</div>
             <div style="font-size: 12px; color: #666; margin-bottom: 4px;">${store.category}</div>
             <div style="font-size: 11px; color: #888; margin-bottom: 8px;">${store.address}</div>
             <div style="display: flex; align-items: center; gap: 8px; padding-top: 8px; border-top: 1px solid #eee;">
@@ -160,6 +184,9 @@ export function KakaoMap({ onMarkerClick, onMapClick }: KakaoMapProps) {
               <span style="font-size: 11px; color: ${statusColor}; font-weight: 600; background: ${statusColor}20; padding: 2px 6px; border-radius: 4px;">${statusText}</span>
             </div>
             <div style="font-size: 10px; color: #999; margin-top: 4px;">검증 ${store.verificationCount}회 · 신뢰도 ${Math.round(store.trustScore)}%</div>
+            <div style="font-size: 11px; color: #3b82f6; margin-top: 8px; text-align: center; padding: 6px; background: #eff6ff; border-radius: 4px;">
+              클릭하여 상세보기 →
+            </div>
           </div>
         `;
 
