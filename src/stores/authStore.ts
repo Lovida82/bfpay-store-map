@@ -12,6 +12,7 @@ interface AuthState {
   signUp: (email: string, password: string, nickname: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
+  setUser: (user: User) => void;
   updateProfile: (profile: { nickname?: string; avatarUrl?: string }) => Promise<void>;
 }
 
@@ -65,6 +66,10 @@ export const useAuthStore = create<AuthState>()(
         } finally {
           set({ isLoading: false });
         }
+      },
+
+      setUser: (user) => {
+        set({ user });
       },
 
       updateProfile: async (profile) => {
