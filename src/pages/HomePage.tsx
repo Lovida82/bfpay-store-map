@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { KakaoMap, MapControls } from '@/components/map';
 import { StoreSearch, StoreFilter } from '@/components/store';
@@ -10,8 +10,30 @@ import { clsx } from 'clsx';
 export function HomePage() {
   const navigate = useNavigate();
   const { filteredStores, setStores, setSelectedStore, selectedStore, isLoading, setLoading, setError } = useStoreStore();
-  const { setSelectedStore: setMapSelectedStore, setCenter, setUserLocation } = useMapStore();
+  const { setSelectedStore: setMapSelectedStore, setCenter, setUserLocation, bounds } = useMapStore();
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+  const [filterByBounds, setFilterByBounds] = useState(false);
+
+  // 지도 범위 내 가맹점만 필터링
+  const visibleStores = useMemo(() => {
+    // 조회 버튼을 누르지 않았으면 전체 목록 표시
+    if (!filterByBounds || !bounds) return filteredStores;
+
+    return filteredStores.filter((store) => {
+      const { lat, lng } = store.coordinates;
+      return (
+        lat >= bounds.sw.lat &&
+        lat <= bounds.ne.lat &&
+        lng >= bounds.sw.lng &&
+        lng <= bounds.ne.lng
+      );
+    });
+  }, [filteredStores, bounds, filterByBounds]);
+
+  // 조회 버튼 클릭 핸들러
+  const handleSearchInBounds = useCallback(() => {
+    setFilterByBounds(true);
+  }, []);
 
   // 초기 로드시 현재 위치로 이동
   useEffect(() => {
@@ -99,19 +121,33 @@ export function HomePage() {
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
             </div>
-          ) : filteredStores.length === 0 ? (
+          ) : visibleStores.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
-              <p>등록된 가맹점이 없습니다</p>
-              <button
-                onClick={() => navigate('/register')}
-                className="mt-2 text-primary-600 hover:text-primary-700 font-medium"
-              >
-                첫 번째 가맹점 등록하기
-              </button>
+              {filterByBounds ? (
+                <>
+                  <p>현재 지도 범위에 가맹점이 없습니다</p>
+                  <button
+                    onClick={() => setFilterByBounds(false)}
+                    className="mt-2 text-primary-600 hover:text-primary-700 font-medium"
+                  >
+                    전체 목록 보기
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p>등록된 가맹점이 없습니다</p>
+                  <button
+                    onClick={() => navigate('/register')}
+                    className="mt-2 text-primary-600 hover:text-primary-700 font-medium"
+                  >
+                    첫 번째 가맹점 등록하기
+                  </button>
+                </>
+              )}
             </div>
           ) : (
             <div className="space-y-3">
-              {filteredStores.map((store) => (
+              {visibleStores.map((store) => (
                 <div
                   key={store.id}
                   onClick={() => handleStoreClick(store)}
@@ -156,16 +192,32 @@ export function HomePage() {
             </div>
           )}
 
-          <p className="text-center text-sm text-gray-400 mt-4">
-            총 {filteredStores.length}개의 가맹점
-          </p>
+          <div className="text-center mt-4">
+            {filterByBounds ? (
+              <>
+                <p className="text-sm text-gray-500">
+                  지도 범위 내 <span className="font-medium text-primary-600">{visibleStores.length}</span>개 / 전체 {filteredStores.length}개
+                </p>
+                <button
+                  onClick={() => setFilterByBounds(false)}
+                  className="mt-2 text-xs text-primary-600 hover:text-primary-700 underline"
+                >
+                  전체 목록 보기
+                </button>
+              </>
+            ) : (
+              <p className="text-sm text-gray-400">
+                전체 {filteredStores.length}개의 가맹점
+              </p>
+            )}
+          </div>
         </div>
       </div>
 
       {/* 지도 영역 */}
       <div className="flex-1 relative">
         <KakaoMap onMarkerClick={handleMarkerClick} onMapClick={handleMapClick} />
-        <MapControls />
+        <MapControls onSearchInBounds={handleSearchInBounds} />
       </div>
 
       {/* 모바일: 하단 시트 */}
@@ -185,8 +237,8 @@ export function HomePage() {
         >
           <div className="w-12 h-1.5 bg-gray-300 rounded-full mb-2" />
           <div className="flex items-center gap-2 text-sm">
-            <span className="font-medium text-gray-900">가맹점 목록</span>
-            <span className="text-primary-600 font-bold">{filteredStores.length}개</span>
+            <span className="font-medium text-gray-900">{filterByBounds ? '지도 범위 내' : '가맹점 목록'}</span>
+            <span className="text-primary-600 font-bold">{visibleStores.length}개</span>
             <svg
               className={clsx('w-4 h-4 text-gray-400 transition-transform', isBottomSheetOpen && 'rotate-180')}
               fill="none"
@@ -216,13 +268,25 @@ export function HomePage() {
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                   </svg>
                 </div>
-              ) : filteredStores.length === 0 ? (
+              ) : visibleStores.length === 0 ? (
                 <div className="text-center py-8 text-gray-500">
-                  <p>등록된 가맹점이 없습니다</p>
+                  {filterByBounds ? (
+                    <>
+                      <p>현재 지도 범위에 가맹점이 없습니다</p>
+                      <button
+                        onClick={() => setFilterByBounds(false)}
+                        className="mt-2 text-primary-600 text-sm underline"
+                      >
+                        전체 목록 보기
+                      </button>
+                    </>
+                  ) : (
+                    <p>등록된 가맹점이 없습니다</p>
+                  )}
                 </div>
               ) : (
                 <div className="space-y-2">
-                  {filteredStores.map((store) => (
+                  {visibleStores.map((store) => (
                     <div
                       key={store.id}
                       onClick={() => {

@@ -3,7 +3,11 @@ import { useStoreStore } from '@/stores';
 import { Dropdown } from '@/components/common';
 import { STORE_CATEGORIES, type StoreCategory } from '@/types/store';
 
-export function MapControls() {
+interface MapControlsProps {
+  onSearchInBounds?: () => void;
+}
+
+export function MapControls({ onSearchInBounds }: MapControlsProps) {
   const { selectedCategory, setSelectedCategory, searchRadius, setSearchRadius } = useStoreStore();
 
   const radiusOptions = [
@@ -35,6 +39,18 @@ export function MapControls() {
             </option>
           ))}
         </select>
+
+        {onSearchInBounds && (
+          <button
+            onClick={onSearchInBounds}
+            className="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors flex items-center gap-1"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            조회
+          </button>
+        )}
       </div>
 
       <div className="ml-auto">
