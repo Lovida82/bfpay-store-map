@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { KakaoMap, MapControls } from '@/components/map';
-import { StoreList, StoreSearch, StoreFilter } from '@/components/store';
+import { StoreSearch, StoreFilter } from '@/components/store';
 import { useStoreStore, useMapStore } from '@/stores';
 import { getAllStores } from '@/services/api/stores';
 import type { Store } from '@/types/store';
@@ -169,42 +169,104 @@ export function HomePage() {
       </div>
 
       {/* 모바일: 하단 시트 */}
-      <div className="lg:hidden absolute bottom-0 left-0 right-0 pointer-events-none">
-        <div
-          className={clsx(
-            'pointer-events-auto bg-white rounded-t-2xl shadow-lg transition-transform duration-300',
-            isBottomSheetOpen ? 'translate-y-0' : 'translate-y-[calc(100%-4rem)]'
-          )}
+      <div
+        className={clsx(
+          'lg:hidden fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-2xl transition-transform duration-300 z-30',
+          isBottomSheetOpen ? 'h-[70vh]' : 'h-auto'
+        )}
+        style={{
+          boxShadow: '0 -4px 20px rgba(0, 0, 0, 0.15)',
+        }}
+      >
+        {/* 핸들 및 요약 정보 */}
+        <button
+          onClick={() => setIsBottomSheetOpen(!isBottomSheetOpen)}
+          className="w-full py-3 flex flex-col items-center border-b border-gray-100"
         >
-          <button
-            onClick={() => setIsBottomSheetOpen(!isBottomSheetOpen)}
-            className="w-full py-3 flex items-center justify-center"
-          >
-            <div className="w-10 h-1 bg-gray-300 rounded-full" />
-          </button>
+          <div className="w-12 h-1.5 bg-gray-300 rounded-full mb-2" />
+          <div className="flex items-center gap-2 text-sm">
+            <span className="font-medium text-gray-900">가맹점 목록</span>
+            <span className="text-primary-600 font-bold">{filteredStores.length}개</span>
+            <svg
+              className={clsx('w-4 h-4 text-gray-400 transition-transform', isBottomSheetOpen && 'rotate-180')}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+            </svg>
+          </div>
+        </button>
 
-          <div className="px-4 pb-4">
-            <div className="space-y-3 mb-4">
+        {/* 펼쳐진 내용 */}
+        {isBottomSheetOpen && (
+          <div className="flex flex-col h-[calc(70vh-60px)] overflow-hidden">
+            <div className="px-4 py-3 border-b border-gray-100">
               <StoreSearch />
-              <StoreFilter />
+              <div className="mt-2">
+                <StoreFilter />
+              </div>
             </div>
 
-            <div className="max-h-64 overflow-y-auto">
-              <StoreList
-                stores={filteredStores.slice(0, 10)}
-                isLoading={isLoading}
-                emptyMessage="등록된 가맹점이 없습니다"
-                onStoreClick={handleStoreClick}
-              />
-
-              {filteredStores.length > 10 && (
-                <p className="text-center text-sm text-gray-500 mt-4">
-                  +{filteredStores.length - 10}개 더 있습니다
-                </p>
+            <div className="flex-1 overflow-y-auto px-4 py-3">
+              {isLoading ? (
+                <div className="flex items-center justify-center py-8">
+                  <svg className="animate-spin w-8 h-8 text-primary-600" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                </div>
+              ) : filteredStores.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  <p>등록된 가맹점이 없습니다</p>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {filteredStores.map((store) => (
+                    <div
+                      key={store.id}
+                      onClick={() => {
+                        handleStoreClick(store);
+                        setIsBottomSheetOpen(false);
+                      }}
+                      className={clsx(
+                        'p-3 rounded-lg border cursor-pointer transition-all',
+                        selectedStore?.id === store.id
+                          ? 'border-primary-500 bg-primary-50'
+                          : 'border-gray-200 hover:border-primary-300'
+                      )}
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-medium text-gray-900 truncate">{store.name}</h3>
+                          <p className="text-sm text-gray-500">{store.category}</p>
+                          <p className="text-xs text-gray-400 truncate">{store.address}</p>
+                        </div>
+                        <div className="flex flex-col items-end ml-2">
+                          <span
+                            className={clsx(
+                              'inline-block w-3 h-3 rounded-full',
+                              store.verificationCount === 0
+                                ? 'bg-gray-400'
+                                : store.trustScore >= 70 && store.verificationCount >= 3
+                                  ? 'bg-green-500'
+                                  : store.trustScore >= 40
+                                    ? 'bg-yellow-500'
+                                    : 'bg-red-500'
+                            )}
+                          />
+                          <span className="text-xs text-gray-400 mt-1">
+                            {store.verificationCount}회
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
