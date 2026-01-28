@@ -6,7 +6,6 @@ import { useStoreStore, useMapStore } from '@/stores';
 import { getAllStores } from '@/services/api/stores';
 import type { Store } from '@/types/store';
 import { clsx } from 'clsx';
-import toast from 'react-hot-toast';
 
 export function HomePage() {
   const navigate = useNavigate();

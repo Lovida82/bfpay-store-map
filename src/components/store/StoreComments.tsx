@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, Input } from '@/components/common';
+import { Button } from '@/components/common';
 import { getCommentsByStoreId, createComment, deleteComment } from '@/services/api/comments';
 import { useAuthStore } from '@/stores';
 import type { Comment } from '@/types/verification';
