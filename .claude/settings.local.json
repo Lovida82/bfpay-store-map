@@ -22,7 +22,8 @@
       "Bash(vercel login)",
       "Bash(git commit -m \"$\\(cat <<''EOF''\nfix: Remove unused imports causing build errors\n\n- Remove unused Input import from StoreComments\n- Remove unused toast import from HomePage\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(git commit:*)",
-      "Bash(node scripts/convert-og-image.js:*)"
+      "Bash(node scripts/convert-og-image.js:*)",
+      "Bash(node scripts/convert-og-image.cjs:*)"
     ]
   }
 }
