@@ -164,8 +164,8 @@ export function PrivacyPage() {
                   개인정보 보호 관련 문의사항이 있으시면 아래로 연락해 주시기 바랍니다.
                 </p>
                 <ul className="mt-3 text-gray-700 space-y-1">
-                  <li><strong>담당:</strong> 서비스 운영팀</li>
-                  <li><strong>이메일:</strong> privacy@bppay-map.com</li>
+                  <li><strong>담당:</strong> 디지털혁신팀</li>
+                  <li><strong>이메일:</strong> jsw0504@ajupharm.co.kr</li>
                 </ul>
               </div>
             </section>
