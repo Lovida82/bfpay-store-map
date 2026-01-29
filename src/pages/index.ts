@@ -5,4 +5,5 @@ export { SearchPage } from './SearchPage';
 export { LoginPage } from './LoginPage';
 export { SignupPage } from './SignupPage';
 export { MyPage } from './MyPage';
+export { AdminPage } from './AdminPage';
 export { NotFoundPage } from './NotFoundPage';

@@ -6,6 +6,7 @@ export interface User {
   trustLevel: number;
   totalRegistrations: number;
   totalVerifications: number;
+  isAdmin: boolean;
   createdAt: string;
   updatedAt: string;
 }

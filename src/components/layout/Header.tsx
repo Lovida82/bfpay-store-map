@@ -66,6 +66,14 @@ export function Header() {
                       >
                         마이페이지
                       </Link>
+                      {user.isAdmin && (
+                        <Link
+                          to="/admin"
+                          className="block px-3 py-2 text-sm text-primary-700 hover:bg-primary-50 rounded-md font-medium"
+                        >
+                          관리자 페이지
+                        </Link>
+                      )}
                       <button
                         onClick={handleSignOut}
                         className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"

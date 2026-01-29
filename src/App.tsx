@@ -8,10 +8,12 @@ import { SearchPage } from './pages/SearchPage';
 import { LoginPage } from './pages/LoginPage';
 import { SignupPage } from './pages/SignupPage';
 import { MyPage } from './pages/MyPage';
+import { AdminPage } from './pages/AdminPage';
 import { TermsPage } from './pages/TermsPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { AdminRoute } from './components/auth/AdminRoute';
 
 function App() {
   return (
@@ -39,6 +41,14 @@ function App() {
             <ProtectedRoute>
               <MyPage />
             </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin"
+          element={
+            <AdminRoute>
+              <AdminPage />
+            </AdminRoute>
           }
         />
         <Route path="*" element={<NotFoundPage />} />

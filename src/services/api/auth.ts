@@ -121,6 +121,7 @@ function mapUserFromDB(data: any): User {
     trustLevel: data.trust_level || 1,
     totalRegistrations: data.total_registrations || 0,
     totalVerifications: data.total_verifications || 0,
+    isAdmin: data.is_admin || false,
     createdAt: data.created_at,
     updatedAt: data.updated_at,
   };
