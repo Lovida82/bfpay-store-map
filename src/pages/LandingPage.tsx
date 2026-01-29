@@ -55,9 +55,10 @@ export function LandingPage() {
             </div>
             <p className="text-primary-200 text-sm mt-6">
               회원가입 없이도 지도를 구경할 수 있어요!
-              <br className="sm:hidden" />
-              <span className="hidden sm:inline"> · </span>
-              회원가입하시면 직접 가맹점을 등록하고 검증에 참여할 수 있습니다.
+              <br />
+              회원가입하시면 가맹점 등록, 결제 검증 참여는 물론
+              <br className="hidden sm:block" />
+              별점과 후기로 맛집 정보도 공유할 수 있습니다.
             </p>
           </div>
         </div>
@@ -343,7 +344,9 @@ export function LandingPage() {
             가맹점을 등록하고, 검증하고, 공유해보세요.
           </p>
           <p className="text-primary-200 text-sm mb-8">
-            지도는 누구나 볼 수 있지만, 회원가입하시면 새로운 가맹점도 직접 추가할 수 있어요!
+            지도는 누구나 볼 수 있어요! 회원가입하시면 가맹점 등록, 결제 검증,
+            <br className="hidden sm:block" />
+            별점 후기로 맛집 정보 공유까지 모두 참여할 수 있습니다.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
