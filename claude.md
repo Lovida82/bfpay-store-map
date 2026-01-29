@@ -123,7 +123,7 @@ zeropay-map/
 ├── 사용자_매뉴얼.docx          # 사용자 매뉴얼 (Word)
 ├── src/
 │   ├── components/
-│   │   ├── auth/             # 로그인, 회원가입 폼
+│   │   ├── auth/             # 로그인, 회원가입 폼, AdminRoute
 │   │   ├── common/           # Button, Input, Modal 등
 │   │   ├── layout/           # Header, Footer, Layout
 │   │   ├── map/              # KakaoMap, MapControls
@@ -194,6 +194,7 @@ VITE_OPENAI_API_KEY=sk-your_openai_api_key
 - trust_level: INTEGER (기본값 1)
 - total_registrations: INTEGER
 - total_verifications: INTEGER
+- is_admin: BOOLEAN (기본값 false, 관리자 여부)
 - created_at, updated_at: TIMESTAMP
 ```
 
@@ -205,7 +206,8 @@ VITE_OPENAI_API_KEY=sk-your_openai_api_key
 - coordinates: GEOGRAPHY(POINT)
 - category: TEXT
 - phone: TEXT
-- user_id: UUID (등록자)
+- registered_by: UUID (등록자)
+- status: TEXT (pending/verified/rejected/closed)
 - trust_score: INTEGER (0-100)
 - verification_count: INTEGER
 - positive_count: INTEGER
