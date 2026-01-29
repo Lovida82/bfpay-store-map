@@ -245,6 +245,9 @@ export function LandingPage() {
                 <br />
                 AI가 자동으로 정보를 추출합니다
               </p>
+              <p className="text-primary-600 text-xs mt-2 font-medium">
+                제로페이맵 즐겨찾기 캡쳐로도 등록 가능!
+              </p>
             </div>
             <div className="bg-white rounded-2xl p-6 shadow-sm text-center">
               <div className="w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
