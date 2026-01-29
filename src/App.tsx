@@ -8,6 +8,8 @@ import { SearchPage } from './pages/SearchPage';
 import { LoginPage } from './pages/LoginPage';
 import { SignupPage } from './pages/SignupPage';
 import { MyPage } from './pages/MyPage';
+import { TermsPage } from './pages/TermsPage';
+import { PrivacyPage } from './pages/PrivacyPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 
@@ -21,6 +23,8 @@ function App() {
         <Route path="store/:id" element={<StoreDetailPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="signup" element={<SignupPage />} />
+        <Route path="terms" element={<TermsPage />} />
+        <Route path="privacy" element={<PrivacyPage />} />
         <Route
           path="register"
           element={

@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export function Footer() {
   return (
     <footer className="bg-gray-50 border-t border-gray-200">
@@ -10,13 +12,13 @@ export function Footer() {
             </p>
           </div>
           <div className="flex items-center gap-4 text-sm text-gray-500">
-            <a href="#" className="hover:text-gray-700">
+            <Link to="/terms" className="hover:text-gray-700">
               이용약관
-            </a>
-            <a href="#" className="hover:text-gray-700">
+            </Link>
+            <Link to="/privacy" className="hover:text-gray-700">
               개인정보처리방침
-            </a>
-            <a href="#" className="hover:text-gray-700">
+            </Link>
+            <a href="mailto:support@bppay-map.com" className="hover:text-gray-700">
               문의하기
             </a>
           </div>

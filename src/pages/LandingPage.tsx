@@ -102,9 +102,11 @@ export function LandingPage() {
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
               그래서 우리가 직접 만들었습니다
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto font-medium">
               동료들이 직접 결제해보고 인증한 가맹점만 모아놓은
               <strong className="text-primary-600"> 우리만의 비플페이 지도</strong>입니다.
+            </p>
+            <p className="text-gray-500 mt-3">
               더 이상 헛걸음 하지 마세요!
             </p>
           </div>
