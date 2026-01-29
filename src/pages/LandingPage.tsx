@@ -1,8 +1,22 @@
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/stores';
 
 export function LandingPage() {
   const { user } = useAuthStore();
+  const navigate = useNavigate();
+
+  // 로그인된 사용자는 지도 페이지로 리다이렉트
+  useEffect(() => {
+    if (user) {
+      navigate('/map', { replace: true });
+    }
+  }, [user, navigate]);
+
+  // 로그인된 사용자는 리다이렉트 중이므로 아무것도 렌더링하지 않음
+  if (user) {
+    return null;
+  }
 
   return (
     <div className="min-h-[calc(100vh-4rem)]">
