@@ -12,6 +12,8 @@ export function SignupForm() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [nickname, setNickname] = useState('');
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [agreePrivacy, setAgreePrivacy] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validate = () => {
@@ -37,6 +39,14 @@ export function SignupForm() {
       newErrors.nickname = '닉네임을 입력해주세요';
     } else if (!isValidNickname(nickname)) {
       newErrors.nickname = '닉네임은 2~20자여야 합니다';
+    }
+
+    if (!agreeTerms) {
+      newErrors.agreeTerms = '이용약관에 동의해주세요';
+    }
+
+    if (!agreePrivacy) {
+      newErrors.agreePrivacy = '개인정보처리방침에 동의해주세요';
     }
 
     setErrors(newErrors);
@@ -106,6 +116,47 @@ export function SignupForm() {
           error={errors.confirmPassword}
           autoComplete="new-password"
         />
+      </div>
+
+      {/* 약관 동의 */}
+      <div className="space-y-3">
+        <div className="flex items-start">
+          <input
+            type="checkbox"
+            id="agreeTerms"
+            checked={agreeTerms}
+            onChange={(e) => setAgreeTerms(e.target.checked)}
+            className="mt-1 h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+          />
+          <label htmlFor="agreeTerms" className="ml-2 text-sm text-gray-700">
+            <Link to="/terms" target="_blank" className="text-primary-600 hover:text-primary-700 underline">
+              이용약관
+            </Link>
+            에 동의합니다 <span className="text-red-500">*</span>
+          </label>
+        </div>
+        {errors.agreeTerms && (
+          <p className="text-sm text-red-500 ml-6">{errors.agreeTerms}</p>
+        )}
+
+        <div className="flex items-start">
+          <input
+            type="checkbox"
+            id="agreePrivacy"
+            checked={agreePrivacy}
+            onChange={(e) => setAgreePrivacy(e.target.checked)}
+            className="mt-1 h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+          />
+          <label htmlFor="agreePrivacy" className="ml-2 text-sm text-gray-700">
+            <Link to="/privacy" target="_blank" className="text-primary-600 hover:text-primary-700 underline">
+              개인정보처리방침
+            </Link>
+            에 동의합니다 <span className="text-red-500">*</span>
+          </label>
+        </div>
+        {errors.agreePrivacy && (
+          <p className="text-sm text-red-500 ml-6">{errors.agreePrivacy}</p>
+        )}
       </div>
 
       <Button type="submit" className="w-full" isLoading={isLoading}>

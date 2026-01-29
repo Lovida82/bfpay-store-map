@@ -18,9 +18,6 @@ export function Footer() {
             <Link to="/privacy" className="hover:text-gray-700">
               개인정보처리방침
             </Link>
-            <a href="mailto:jsw0504@ajupharm.co.kr" className="hover:text-gray-700">
-              문의하기
-            </a>
           </div>
         </div>
         <div className="mt-4 pt-4 border-t border-gray-200 text-center">
