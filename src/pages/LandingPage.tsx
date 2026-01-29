@@ -53,6 +53,12 @@ export function LandingPage() {
                 </Link>
               )}
             </div>
+            <p className="text-primary-200 text-sm mt-6">
+              회원가입 없이도 지도를 구경할 수 있어요!
+              <br className="sm:hidden" />
+              <span className="hidden sm:inline"> · </span>
+              회원가입하시면 직접 가맹점을 등록하고 검증에 참여할 수 있습니다.
+            </p>
           </div>
         </div>
       </section>
@@ -331,10 +337,13 @@ export function LandingPage() {
           <h2 className="text-2xl md:text-3xl font-bold mb-4">
             지금 바로 시작해보세요!
           </h2>
-          <p className="text-primary-100 mb-8">
+          <p className="text-primary-100 mb-4">
             우리 모두가 함께 만드는 신뢰할 수 있는 비플페이 가맹점 지도.
             <br />
             가맹점을 등록하고, 검증하고, 공유해보세요.
+          </p>
+          <p className="text-primary-200 text-sm mb-8">
+            지도는 누구나 볼 수 있지만, 회원가입하시면 새로운 가맹점도 직접 추가할 수 있어요!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
